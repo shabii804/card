@@ -91,6 +91,8 @@
   .card .ret{position:relative;height:100px;border-top:1.5px solid #dbe5ea;font-size:11.5px;line-height:1.5;color:#2c3a42}
   .card .ret .rl{position:absolute;left:0;top:10px;width:170px}
   .card .ret b{color:#000}
+  .card .ret .contacts{display:grid;grid-template-columns:52px minmax(0,1fr);column-gap:4px}
+  .card .ret .contact-number{grid-column:2}
   .card .bsig{position:absolute;right:0;bottom:2px;width:160px;border-top:1.5px solid #333;text-align:center;font-size:9.5px;font-weight:600;color:#3a4850;padding-top:2px}
   .card .bfoot{position:absolute;left:0;top:556px;width:404px;height:84px;background:var(--navy);border-top:3px solid var(--gold);display:flex;align-items:center;gap:14px;padding:0 24px}
   .card .bfoot .pb{width:58px;height:58px;background:#fff;border-radius:50%;display:none;align-items:center;justify-content:center;flex:none}
@@ -345,7 +347,14 @@ Report a lost or damaged card to the company immediately.</textarea>
     $("fContact").textContent = nums.join("   |   "); $("fStrip").style.display = nums.length ? "flex" : "none";
     [a1,a2].forEach(function(t){ if(t){ var d = document.createElement("div"); d.textContent = t; $("fAddr").appendChild(d); } });
     $("bAddr").innerHTML = ""; [a1,a2].forEach(function(t){ if(t){ var d = document.createElement("div"); d.textContent = t; $("bAddr").appendChild(d); } });
-    $("bContact").innerHTML = ""; nums.forEach(function(n, i){ var d = document.createElement("div"); d.textContent = (i === 0 ? "Contact: " : "") + n; $("bContact").appendChild(d); });
+    $("bContact").innerHTML = "";
+    if(nums.length){
+      var contacts = document.createElement("div"); contacts.className = "contacts";
+      var label = document.createElement("span"); label.textContent = "Contact:";
+      contacts.appendChild(label);
+      nums.forEach(function(n){ var d = document.createElement("div"); d.className = "contact-number"; d.textContent = n; contacts.appendChild(d); });
+      $("bContact").appendChild(contacts);
+    }
     var ft = $("bFootText"); ft.innerHTML = "";
     var l1 = document.createElement("div"); l1.textContent = v("company"); ft.appendChild(l1);
     if(v("tag")){ var sp = document.createElement("span"); sp.textContent = v("tag"); ft.appendChild(sp); }
